@@ -16,12 +16,12 @@
     "@burstjs/monitor": "^0.6.0-alpha.8",
     "@burstjs/util": "^0.6.0-alpha.8",
     "body-parser": "^1.19.0",
+    "compression": "^1.7.1",
     "dexie": "^3.0.3",
     "dotenv": "^8.2.0",
     "hashicon": "^0.3.0",
-    "compression": "^1.7.1",
     "polka": "next",
-    "sirv": "^1.0.0"
+    "sirv": "^1.0.0",
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -49,6 +49,7 @@
     "sapper": "^0.28.0",
     "svelte": "^3.17.3",
     "svelte-material-ui": "^2.0.0-beta.0",
-    "vercel": "^21.1.0"
+    "vercel": "^21.1.0",
+    "vercel-sapper": "^0.44.0"
   }
 }
