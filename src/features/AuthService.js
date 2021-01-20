@@ -28,6 +28,7 @@ export class AuthService {
                 pubKeyCredParams: [
                     { type: "public-key", alg: -36 }, // ES512
                     { type: "public-key", alg: -35 }, // ES384
+                    { type: "public-key", alg: -7 }, // ES256
                 ]
             }
         });
