@@ -21,7 +21,7 @@
     "dotenv": "^8.2.0",
     "hashicon": "^0.3.0",
     "polka": "next",
-    "sirv": "^1.0.0",
+    "sirv": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
