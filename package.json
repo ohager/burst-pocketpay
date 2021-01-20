@@ -9,6 +9,16 @@
     "start": "node __sapper__/build"
   },
   "dependencies": {
+    "@burstjs/contracts": "^0.6.0-alpha.8",
+    "@burstjs/core": "^0.6.0-alpha.8",
+    "@burstjs/crypto": "^0.6.0-alpha.8",
+    "@burstjs/http": "^0.6.0-alpha.8",
+    "@burstjs/monitor": "^0.6.0-alpha.8",
+    "@burstjs/util": "^0.6.0-alpha.8",
+    "body-parser": "^1.19.0",
+    "dexie": "^3.0.3",
+    "dotenv": "^8.2.0",
+    "hashicon": "^0.3.0",
     "compression": "^1.7.1",
     "polka": "next",
     "sirv": "^1.0.0"
