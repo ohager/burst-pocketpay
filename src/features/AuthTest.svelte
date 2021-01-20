@@ -28,6 +28,6 @@
 
     <Textfield bind:value={name} label="Label"/>
 
-    <Button on:click={handleCreate} variant="raised"><Label>Raised</Label></Button>
+    <Button on:click={handleCreate} variant="raised"><Label>Register</Label></Button>
 
 </div>
