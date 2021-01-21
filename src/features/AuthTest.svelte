@@ -14,7 +14,7 @@
             const service = new AuthService()
             const credentialResponse = await service.createCredential()
             setAuthId(credentialResponse.id)
-            result = `${JSON.stringify(credentialResponse)} stored`
+            result = `${credentialResponse} stored`
         } catch (e) {
             result = e.message
         }

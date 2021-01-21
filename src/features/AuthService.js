@@ -56,7 +56,7 @@ export class AuthService {
             }
         });
         await navigator.credentials.preventSilentAccess();
-        return publicKeyCredentialToJSON(credentials)
+        return credentials
     }
 
     async getCredential(challenge) {
