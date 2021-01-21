@@ -1,5 +1,20 @@
 import base64url from "base64url";
 
+function publicKeyCredentialToJSON(pubKeyCred) {
+    if (pubKeyCred instanceof ArrayBuffer) {
+        return base64url.encode(pubKeyCred);
+    } else if (pubKeyCred instanceof Array) {
+        return pubKeyCred.map(publicKeyCredentialToJSON);
+    } else if (pubKeyCred instanceof Object) {
+        const obj = {};
+        for (let key in pubKeyCred) {
+            obj[key] = publicKeyCredentialToJSON(pubKeyCred[key]);
+        }
+        return obj;
+    } else return pubKeyCred;
+}
+
+
 export class AuthService {
     constructor() {
     }
@@ -15,6 +30,7 @@ export class AuthService {
         const randomBuffer = new Uint8Array(64)
         return await crypto.subtle.digest("SHA-256", randomBuffer)
     }
+
 
     async createCredential() {
         const challenge = await this.getRandomHash()
@@ -40,7 +56,7 @@ export class AuthService {
             }
         });
         await navigator.credentials.preventSilentAccess();
-        return {id: challenge}
+        return publicKeyCredentialToJSON(credentials)
     }
 
     async getCredential(challenge) {
