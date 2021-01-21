@@ -42,7 +42,7 @@ export class AuthService {
                     userVerification: "required"
                 },
                 challenge,
-                rp: {id: 'pocketpay.digital', name: "Burst PocketPay"},
+                rp: {id: document.domain, name: "Burst PocketPay"},
                 user: {
                     id: userId,
                     name: 'Pocket Pay User',
