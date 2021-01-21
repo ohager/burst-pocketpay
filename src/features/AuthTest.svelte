@@ -1,7 +1,7 @@
 <script>
     import Button, {Label} from '@smui/button';
     import {AuthService} from "./AuthService";
-    import {authStore, setAuthId, resetAuth} from "./authStore";
+    import {authStore$, setAuthId, resetAuth} from "./authStore";
 
     let name = ''
 
