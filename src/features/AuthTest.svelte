@@ -9,11 +9,10 @@
 
     async function handleCreate() {
         try {
-
             const service = new AuthService()
-            const credentials = await service.createCredentials(name, "abcdef1234")
-            localStorage.setItem('credentials', JSON.stringify(credentials))
-            result = "Done"
+            const credentialResponse = await service.createCredential()
+            localStorage.setItem('authId', credentialResponse.id)
+            result = `${JSON.stringify(credentialResponse)} stored`
         } catch (e) {
             result = e.message
         }
@@ -25,8 +24,6 @@
     <h1>Auth</h1>
     <p>Auth Test</p>
     <small>{result}</small>
-
-    <Textfield bind:value={name} label="Label"/>
 
     <Button on:click={handleCreate} variant="raised"><Label>Register</Label></Button>
 

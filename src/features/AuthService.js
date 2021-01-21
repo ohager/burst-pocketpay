@@ -2,38 +2,47 @@ export class AuthService {
     constructor() {
     }
 
-    async digestMessage(message) {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(message);
-        const digest = await crypto.subtle.digest('SHA-512', data);
-        return digest
+    async randomChallenge() {
+        const randomBuffer = new Uint8Array(64)
+        crypto.getRandomValues(randomBuffer)
+        return randomBuffer
     }
 
-    async createCredentials(name, pin){
-        const challenge = await this.digestMessage(pin)
-        const userId = await this.digestMessage(name)
+    async getRandomHash() {
+        navigator.userAgent
+        const randomBuffer = new Uint8Array(64)
+        return await crypto.subtle.digest("SHA-256", randomBuffer)
+    }
+
+    async createCredential() {
+        const challenge = await this.getRandomHash()
+        const userId = await this.getRandomHash()
         const credentials = await navigator.credentials.create({
             publicKey: {
                 authenticatorSelection: {
-                    authenticatorAttachment: "platform",
-                    userVerification: "required"
+                    authenticatorAttachment: "cross-platform",
+                    userVerification: "preferred"
                 },
                 challenge,
-                rp: { id: document.domain, name: "Burst PocketPay" },
+                rp: {id: document.domain, name: "Burst PocketPay"},
                 user: {
-                    displayName: 'some name',
                     id: userId,
-                    name
+                    name: 'Pocket Pay User',
+                    displayName: 'Pocket Pay User'
                 },
                 pubKeyCredParams: [
-                    { type: "public-key", alg: -36 }, // ES512
-                    { type: "public-key", alg: -35 }, // ES384
-                    { type: "public-key", alg: -7 }, // ES256
+                    {type: "public-key", alg: -36}, // ES512
+                    {type: "public-key", alg: -35}, // ES384
+                    {type: "public-key", alg: -7}, // ES256
                 ]
             }
         });
         await navigator.credentials.preventSilentAccess();
         return credentials
+    }
+
+    async getCredential() {
+
     }
 }
 
