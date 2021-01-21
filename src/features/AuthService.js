@@ -42,17 +42,20 @@ export class AuthService {
                     userVerification: "required"
                 },
                 challenge,
-                rp: {id: document.domain, name: "Burst PocketPay"},
+                rp: {id: 'pocketpay.digital', name: "Burst PocketPay"},
                 user: {
                     id: userId,
                     name: 'Pocket Pay User',
                     displayName: 'Pocket Pay User'
                 },
                 pubKeyCredParams: [
-                    {type: "public-key", alg: -36}, // ES512
-                    {type: "public-key", alg: -35}, // ES384
+                    // {type: "public-key", alg: -36}, // ES512
+                    // {type: "public-key", alg: -35}, // ES384
                     {type: "public-key", alg: -7}, // ES256
-                ]
+                    {type: "public-key", alg: -257}
+                ],
+                attestation: 'none',
+                timeout: 60*1000
             }
         });
         await navigator.credentials.preventSilentAccess();
