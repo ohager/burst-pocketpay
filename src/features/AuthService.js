@@ -40,7 +40,7 @@ export class AuthService {
             }
         });
         await navigator.credentials.preventSilentAccess();
-        return credentials
+        return {id: challenge}
     }
 
     async getCredential(challenge) {
