@@ -38,7 +38,7 @@ export class AuthService {
         const credentials = await navigator.credentials.create({
             publicKey: {
                 authenticatorSelection: {
-                    authenticatorAttachment: "platform",
+                    authenticatorAttachment: "cross-platform",
                     userVerification: "required"
                 },
                 challenge,
