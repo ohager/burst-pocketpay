@@ -1,3 +1,5 @@
+import base64url from "base64url";
+
 export class AuthService {
     constructor() {
     }
@@ -20,8 +22,8 @@ export class AuthService {
         const credentials = await navigator.credentials.create({
             publicKey: {
                 authenticatorSelection: {
-                    authenticatorAttachment: "cross-platform",
-                    userVerification: "preferred"
+                    authenticatorAttachment: "platform",
+                    userVerification: "required"
                 },
                 challenge,
                 rp: {id: document.domain, name: "Burst PocketPay"},
@@ -41,8 +43,15 @@ export class AuthService {
         return credentials
     }
 
-    async getCredential() {
+    async getCredential(challenge) {
+        const credentials = await navigator.credentials.get({
+            publicKey: {
+                challenge,
+                rp: {id: document.domain, name: "Burst PocketPay"},
+            }
+        })
 
+        return credentials
     }
 }
 
