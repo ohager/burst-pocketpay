@@ -13,10 +13,10 @@ export class AuthService {
         const userId = await this.getRandomValues()
         const credentials = await navigator.credentials.create({
             publicKey: {
-                authenticatorSelection: {
-                    authenticatorAttachment: "cross-platform",
-                    userVerification: "preferred"
-                },
+                // authenticatorSelection: {
+                //     authenticatorAttachment: "cross-platform",
+                //     userVerification: "preferred"
+                // },
                 challenge,
                 rp: {id: document.domain, name: "Burst PocketPay"},
                 user: {
