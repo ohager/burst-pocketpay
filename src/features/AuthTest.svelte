@@ -2,31 +2,34 @@
     import Button, {Label} from '@smui/button';
     import {AuthService} from "./AuthService";
     import {authStore$, setAuthId, resetAuth} from "./authStore";
+    import {decode} from "../utils/base64url";
 
     let name = ''
+    let message = ''
 
-    $: result = ''
-
-    $: hasCredentials = !!$authStore$.authId
+    $: authId = $authStore$.authId
+    $: hasCredentials = !!authId
 
     async function handleCreateCredentials() {
         try {
             const service = new AuthService()
             const credentialResponse = await service.createCredential()
             setAuthId(credentialResponse.id)
-            result = `${JSON.stringify(credentialResponse)} stored`
+            const t = decode(credentialResponse.id)
+            console.log(t)
+            message = `${credentialResponse.id} stored`
         } catch (e) {
-            result = e.message
+            message = e.message
         }
     }
 
     async function handleGetCredentials() {
         try {
             const service = new AuthService()
-            const credentialResponse = await service.getCredential($authStore$.id)
-            result = `${JSON.stringify(credentialResponse)} found`
+            const credentialResponse = await service.getCredential(authId)
+            message = `${JSON.stringify(credentialResponse)} found`
         } catch (e) {
-            result = e.message
+            message = e.message
         }
     }
 
@@ -39,14 +42,13 @@
 <div>
     <h1>Auth</h1>
     <p>Auth Test</p>
-    <small>{result}</small>
+    <small>{message}</small>
 
     {#if !hasCredentials}
         <Button on:click={handleCreateCredentials} variant="raised"><Label>Register</Label></Button>
         <Button on:click={handleResetCredentials}><Label>Reset Credentials</Label></Button>
     {:else}
         <Button on:click={handleGetCredentials} variant="raised"><Label>Authenticate</Label></Button>
-
     {/if}
 
 </div>

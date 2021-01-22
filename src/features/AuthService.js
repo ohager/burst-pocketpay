@@ -1,3 +1,5 @@
+import {encode} from "../utils/base64url";
+
 export class AuthService {
     constructor() {
     }
@@ -10,13 +12,10 @@ export class AuthService {
 
     async createCredential() {
         const challenge = await this.getRandomValues()
+        console.log('challenge', encode(challenge))
         const userId = await this.getRandomValues()
         const credentials = await navigator.credentials.create({
             publicKey: {
-                // authenticatorSelection: {
-                //     authenticatorAttachment: "cross-platform",
-                //     userVerification: "preferred"
-                // },
                 challenge,
                 rp: {id: document.domain, name: "Burst PocketPay"},
                 user: {
@@ -30,7 +29,7 @@ export class AuthService {
                     {type: "public-key", alg: -7}, // ES256
                     {type: "public-key", alg: -257}
                 ],
-                attestation: 'none',
+                attestation: 'direct',
                 timeout: 60*1000
             }
         });
