@@ -1,45 +1,21 @@
-import base64url from "base64url";
-
-function publicKeyCredentialToJSON(pubKeyCred) {
-    if (pubKeyCred instanceof ArrayBuffer) {
-        return base64url.encode(pubKeyCred);
-    } else if (pubKeyCred instanceof Array) {
-        return pubKeyCred.map(publicKeyCredentialToJSON);
-    } else if (pubKeyCred instanceof Object) {
-        const obj = {};
-        for (let key in pubKeyCred) {
-            obj[key] = publicKeyCredentialToJSON(pubKeyCred[key]);
-        }
-        return obj;
-    } else return pubKeyCred;
-}
-
-
 export class AuthService {
     constructor() {
     }
 
-    async randomChallenge() {
+    async getRandomValues() {
         const randomBuffer = new Uint8Array(64)
         crypto.getRandomValues(randomBuffer)
         return randomBuffer
     }
 
-    async getRandomHash() {
-        navigator.userAgent
-        const randomBuffer = new Uint8Array(64)
-        return await crypto.subtle.digest("SHA-256", randomBuffer)
-    }
-
-
     async createCredential() {
-        const challenge = await this.getRandomHash()
-        const userId = await this.getRandomHash()
+        const challenge = await this.getRandomValues()
+        const userId = await this.getRandomValues()
         const credentials = await navigator.credentials.create({
             publicKey: {
                 authenticatorSelection: {
-                    authenticatorAttachment: "platform",
-                    userVerification: "required"
+                    authenticatorAttachment: "cross-platform",
+                    userVerification: "preferred"
                 },
                 challenge,
                 rp: {id: document.domain, name: "Burst PocketPay"},
