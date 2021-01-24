@@ -1,4 +1,4 @@
-import {encode} from "../utils/base64url";
+import {encode, decode} from "../utils/base64url";
 
 export class AuthService {
     constructor() {
@@ -12,8 +12,9 @@ export class AuthService {
 
     async createCredential() {
         const challenge = await this.getRandomValues()
-        console.log('challenge', encode(challenge))
+        console.log('challenge', challenge)
         const userId = await this.getRandomValues()
+        console.log('userId', userId, encode(userId))
         const credentials = await navigator.credentials.create({
             publicKey: {
                 challenge,
@@ -23,28 +24,42 @@ export class AuthService {
                     name: 'Pocket Pay User',
                     displayName: 'Pocket Pay User'
                 },
+                authenticatorSelection: {
+                    requireResidentKey: true,
+                },
                 pubKeyCredParams: [
-                    // {type: "public-key", alg: -36}, // ES512
-                    // {type: "public-key", alg: -35}, // ES384
+                    {type: "public-key", alg: -36}, // ES512
+                    {type: "public-key", alg: -35}, // ES384
                     {type: "public-key", alg: -7}, // ES256
                     {type: "public-key", alg: -257}
                 ],
-                attestation: 'direct',
-                timeout: 60*1000
+                attestation: 'none',
+                timeout: 60*1000,
             }
         });
         await navigator.credentials.preventSilentAccess();
-        return credentials
+        return {
+            credentials,
+            challenge
+        }
     }
 
-    async getCredential(challenge) {
+    async getCredential(id) {
+        const challenge = await this.getRandomValues()
         const credentials = await navigator.credentials.get({
             publicKey: {
                 challenge,
                 rp: {id: document.domain, name: "Burst PocketPay"},
+                allowCredentials: [
+                    {
+                        type: "public-key",
+                        id: decode(id)
+
+                    }
+                ],
+                userVerification: 'preferred'
             }
         })
-
         return credentials
     }
 }
