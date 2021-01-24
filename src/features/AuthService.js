@@ -25,7 +25,9 @@ export class AuthService {
                     displayName: 'Pocket Pay User'
                 },
                 authenticatorSelection: {
+                    residentKey: 'required',
                     requireResidentKey: true,
+                    userVerification: 'required',
                 },
                 pubKeyCredParams: [
                     {type: "public-key", alg: -36}, // ES512
@@ -46,6 +48,7 @@ export class AuthService {
 
     async getCredential(id) {
         const challenge = await this.getRandomValues()
+        console.log('authenticator challenge', encode(challenge))
         const credentials = await navigator.credentials.get({
             publicKey: {
                 challenge,
@@ -54,10 +57,8 @@ export class AuthService {
                     {
                         type: "public-key",
                         id: decode(id)
-
                     }
                 ],
-                userVerification: 'preferred'
             }
         })
         return credentials

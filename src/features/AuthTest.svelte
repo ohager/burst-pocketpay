@@ -31,9 +31,10 @@
     async function handleGetCredentials() {
         try {
             const service = new AuthService()
-            const credentialResponse = await service.getCredential(authId)
-            console.log('authenticated', credentialResponse)
-            const userHandle = credentialResponse.response.userHandle
+            const credentials = await service.getCredential(authId)
+            console.log('authenticated', credentials)
+            console.log("clientDataJSON", JSON.parse(atob(encode(credentials.response.clientDataJSON))))
+            const userHandle = credentials.response.userHandle
             message = userHandle ? `UserHandle [${encode(userHandle)}] found` : `No resident key supported`
         } catch (e) {
             message = e.message
